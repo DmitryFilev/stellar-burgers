@@ -32,7 +32,10 @@
   margin-left: auto;
   padding: 0;
 }
-
+.title {
+  flex-grow: 1;
+  text-align: center;
+}
 .img {
   margin: auto;
 }
