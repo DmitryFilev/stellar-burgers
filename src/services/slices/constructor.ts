@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-//import type { PayloadAction } from '@reduxjs/toolkit';
-import { IConstructorIngredient } from '@utils-types';
+import {
+  IConstructorIngredient,
+  TIngredient,
+  TConstructorIngredient
+} from '@utils-types';
 import { isType, moveElement } from '@utils';
+import { v4 as uuid4 } from 'uuid';
 
 /**
  *  начальное состояние Конструктора Бургера
@@ -18,10 +22,19 @@ export const burgerSlice = createSlice({
   name: 'burger',
   initialState,
   reducers: {
-    addBurgerIngredient: (state, action) => {
-      if (isType(action.payload, 'bun')) state.bun = action.payload;
-      else
-        state.ingredients.push({ ...action.payload, id: action.payload._id });
+    /**
+     * Исправление по первой итерации. Добавляется уникальное id.
+     * Было: id принимал _id. Не учитывал, что можно добавить несколько одинаковых элементов, тогда DND ломается
+     * Еще один опыт в копилку
+     */
+    addBurgerIngredient: {
+      reducer(state, action: PayloadAction<TConstructorIngredient>) {
+        if (isType(action.payload, 'bun')) state.bun = action.payload;
+        else state.ingredients.push(action.payload);
+      },
+      prepare(ingredient: TIngredient) {
+        return { payload: { ...ingredient, id: uuid4() } };
+      }
     },
     deleteBurgerIngredient: (state, action) => {
       state.ingredients = state.ingredients.filter(

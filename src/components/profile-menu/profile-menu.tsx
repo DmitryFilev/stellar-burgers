@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(fetchLogoutUser())

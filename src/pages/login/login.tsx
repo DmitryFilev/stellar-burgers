@@ -4,6 +4,7 @@ import { fetchLoginUser } from '@actions';
 import { useDispatch, useSelector } from '@store';
 import { Navigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { translateLoginError } from '@utils';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,10 @@ export const Login: FC = () => {
   /**
    *Получение данных из store
    **/
-  const error = useSelector((state) => state.user.errorMessage);
+  const error = translateLoginError(
+    useSelector((state) => state.user.errorMessage)
+  );
+
   const user = useSelector((state) => state.user);
   const storageEmail = localStorage.getItem('emailUser') ?? '';
   const [email, setEmail] = useState(storageEmail);

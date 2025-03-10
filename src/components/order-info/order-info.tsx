@@ -12,15 +12,15 @@ export const OrderInfo: FC = () => {
   /**
    * Получение информации о заказах ленты с сервера
    **/
+
   useEffect(() => {
     dispatch(fetchGetOrder(numberOrder));
-  }, [dispatch]);
+  }, [dispatch, numberOrder]);
   /**
    * Получение информации о заказе ленты из стора
    **/
-  const orderData = useSelector(feedsOrders).filter(
-    (el) => el.number === numberOrder
-  )[0];
+  const orderData = useSelector((state) => state.order.orderData);
+
   const ingredients: TIngredient[] = useSelector(
     (state) => state.ingredients.ingredients
   );
@@ -68,7 +68,6 @@ export const OrderInfo: FC = () => {
       name
     };
   }, [orderData, ingredients]);
-
   if (!orderInfo) {
     return <Preloader />;
   }

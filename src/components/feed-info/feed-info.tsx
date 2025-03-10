@@ -15,7 +15,7 @@ export const FeedInfo: FC = () => {
   /**
    * Получение информации с сервера для ленты заказов
    **/
-  const useGetFeeds = useEffect(() => {
+  useEffect(() => {
     dispatch(fetchGetFeeds());
   }, [dispatch]);
   /**
