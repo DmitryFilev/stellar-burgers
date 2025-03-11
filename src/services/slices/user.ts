@@ -25,9 +25,7 @@ const initialState: IUserState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    //  authChecked: (state) => {state.isAuth = true;},
-  },
+  reducers: {},
   selectors: {
     userData: (state) => state.userData,
     userIsAuth: (state) => state.isAuth,
@@ -55,11 +53,13 @@ export const userSlice = createSlice({
       .addCase(fetchGetUser.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
+        state.isCheck = false;
         state.errorMessage = '';
       })
       .addCase(fetchGetUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
+        state.isCheck = true;
         state.isError = true;
         state.errorMessage = action.error.message as string;
       })
@@ -67,6 +67,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.userData = action.payload.user;
         state.isAuth = true;
+        state.isCheck = true;
       })
       .addCase(fetchLoginUser.pending, (state) => {
         state.isLoading = true;
@@ -122,4 +123,3 @@ export const userSlice = createSlice({
 
 export const { userData, userIsAuth, userIsCheck, userIsLoading } =
   userSlice.selectors;
-//export const { authChecked } = userSlice.actions;
