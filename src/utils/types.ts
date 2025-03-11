@@ -15,7 +15,6 @@ export type TIngredient = {
 export type TConstructorIngredient = TIngredient & {
   id: string;
 };
-
 export type TOrder = {
   _id: string;
   status: string;
@@ -32,9 +31,35 @@ export type TOrdersData = {
   totalToday: number;
 };
 
+export interface IIngredientListState {
+  ingredients: TIngredient[];
+  isLoading: boolean;
+}
+export interface IFeedListState extends TOrdersData {
+  isLoading: boolean;
+}
+export interface IConstructorIngredient {
+  bun: TIngredient | null;
+  ingredients: TConstructorIngredient[];
+}
+export interface IOrderState {
+  orderData: TOrder | null;
+  orderRequest: boolean;
+}
+export interface IProfileOrdersState {
+  orders: TOrder[];
+  isLoading: boolean;
+}
 export type TUser = {
   email: string;
   name: string;
 };
-
+export interface IUserState {
+  userData: TUser | null;
+  isAuth: boolean;
+  isCheck: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  errorMessage: string;
+}
 export type TTabMode = 'bun' | 'sauce' | 'main';

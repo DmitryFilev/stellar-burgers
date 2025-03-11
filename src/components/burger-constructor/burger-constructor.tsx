@@ -1,24 +1,50 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import {
+  burgerState,
+  clearOrderModalData,
+  OrderModalData,
+  OrderRequest,
+  userIsAuth,
+  clearBurger
+} from '@slices';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from '@store';
+import { fetchOrder } from '@actions';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
-
-  const orderRequest = false;
-
-  const orderModalData = null;
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  /**
+   *Получение данных из store
+   */
+  const constructorItems = useSelector(burgerState);
+  const isAuth = useSelector(userIsAuth);
+  const orderRequest = useSelector(OrderRequest);
+  const orderModalData = useSelector(OrderModalData);
+  /**
+   *Обработчик клика по кнопке оформить
+   */
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!constructorItems.bun || orderRequest) return; //если пустой конструктор игнор нажатия
+    if (!isAuth)
+      navigate('/login'); //если клиент не прошел авторизацию, отправка его на форму входа
+    else {
+      const ingredientsListId = [constructorItems.bun._id].concat(
+        constructorItems.ingredients.map((el) => el._id),
+        [constructorItems.bun._id]
+      );
+      dispatch(fetchOrder(ingredientsListId));
+    }
   };
-  const closeOrderModal = () => {};
+  /**
+   *обработчик закрытия модального окна
+   */
+  const closeOrderModal = () => {
+    dispatch(clearOrderModalData());
+    dispatch(clearBurger());
+  };
 
   const price = useMemo(
     () =>
@@ -29,9 +55,9 @@ export const BurgerConstructor: FC = () => {
       ),
     [constructorItems]
   );
-
-  return null;
-
+  /**
+   *Формирование JSX
+   */
   return (
     <BurgerConstructorUI
       price={price}

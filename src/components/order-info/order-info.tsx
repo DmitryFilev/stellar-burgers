@@ -1,28 +1,36 @@
-import { FC, useMemo } from 'react';
-import { Preloader } from '../ui/preloader';
-import { OrderInfoUI } from '../ui/order-info';
+import { FC, useMemo, useEffect } from 'react';
+import { fetchGetOrder } from '@actions';
+import { Preloader, OrderInfoUI } from '@ui';
 import { TIngredient } from '@utils-types';
-
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from '@store';
+import { feedsOrders } from '@slices';
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const dispatch = useDispatch();
+  const numberOrder = Number(useParams().number);
 
-  const ingredients: TIngredient[] = [];
+  /**
+   * Получение информации о заказах ленты с сервера
+   **/
 
-  /* Готовим данные для отображения */
+  useEffect(() => {
+    dispatch(fetchGetOrder(numberOrder));
+  }, [dispatch, numberOrder]);
+  /**
+   * Получение информации о заказе ленты из стора
+   **/
+  const orderData = useSelector((state) => state.order.orderData);
+
+  const ingredients: TIngredient[] = useSelector(
+    (state) => state.ingredients.ingredients
+  );
+  /**
+   *Подготовка данных для отображения
+   **/
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
-
     const date = new Date(orderData.createdAt);
-
+    const status = orderData.status;
     type TIngredientsWithCount = {
       [key: string]: TIngredient & { count: number };
     };
@@ -50,18 +58,21 @@ export const OrderInfo: FC = () => {
       (acc, item) => acc + item.price * item.count,
       0
     );
-
+    const name = orderData.name;
     return {
       ...orderData,
       ingredientsInfo,
       date,
-      total
+      total,
+      status,
+      name
     };
   }, [orderData, ingredients]);
-
   if (!orderInfo) {
     return <Preloader />;
   }
-
+  /**
+   * Формирование JSX
+   */
   return <OrderInfoUI orderInfo={orderInfo} />;
 };
