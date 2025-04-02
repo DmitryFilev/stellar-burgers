@@ -9,7 +9,9 @@ const initialState: IFeedListState = {
   orders: [],
   total: 0,
   totalToday: 0,
-  isLoading: false
+  isLoading: false,
+  isError: false,
+  errorMessage: ''
 };
 /**
  * Slice Ингредиенты
@@ -28,12 +30,18 @@ export const feedsSlice = createSlice({
     builder
       .addCase(fetchGetFeeds.pending, (state) => {
         state.isLoading = true;
+        state.isError = false;
+        state.errorMessage = '';
       })
-      .addCase(fetchGetFeeds.rejected, (state) => {
+      .addCase(fetchGetFeeds.rejected, (state, action) => {
         state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = action.error.message as string;
       })
       .addCase(fetchGetFeeds.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
+        state.errorMessage = '';
         state.orders = action.payload.orders;
         state.total = action.payload.total;
         state.totalToday = action.payload.totalToday;
@@ -43,3 +51,5 @@ export const feedsSlice = createSlice({
 
 export const { feedsOrders, feedsTotal, feedsTotalToday, feedsIsLoading } =
   feedsSlice.selectors;
+export default feedsSlice.reducer;
+export { initialState as initialStateFeeds };

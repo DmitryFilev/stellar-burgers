@@ -23,6 +23,7 @@ import { useDispatch } from '@store';
 import { clearOrderModalData } from '@slices';
 import { useEffect } from 'react';
 import { fetchIngredients, fetchGetUser } from '@actions';
+
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

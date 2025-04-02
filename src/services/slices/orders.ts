@@ -7,7 +7,9 @@ import { IProfileOrdersState } from '@utils-types';
  **/
 const initialState: IProfileOrdersState = {
   orders: [],
-  isLoading: false
+  isLoading: false,
+  isError: false,
+  errorMessage: ''
 };
 
 /**
@@ -26,16 +28,24 @@ export const ordersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrders.pending, (state) => {
-        state.isLoading = false;
+        state.isLoading = true;
+        state.isError = false;
+        state.errorMessage = '';
       })
-      .addCase(fetchOrders.rejected, (state) => {
+      .addCase(fetchOrders.rejected, (state, action) => {
         state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = action.error.message as string;
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
-        state.isLoading = true;
+        state.isLoading = false;
+        state.isError = false;
+        state.errorMessage = '';
         state.orders = action.payload;
       });
   }
 });
 export const { ordersState, ordersIsLoading, orderByNumber } =
   ordersSlice.selectors;
+export default ordersSlice.reducer;
+export { initialState as initialStateOrders };

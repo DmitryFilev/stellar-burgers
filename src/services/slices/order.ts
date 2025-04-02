@@ -11,7 +11,9 @@ import { IOrderState } from '@utils-types';
  **/
 const initialState: IOrderState = {
   orderData: null,
-  orderRequest: false
+  orderRequest: false,
+  isError: false,
+  errorMessage: ''
 };
 
 /**
@@ -33,22 +35,32 @@ export const orderSlice = createSlice({
     builder
       .addCase(fetchOrder.pending, (state) => {
         state.orderRequest = true;
+        (state.isError = false), (state.errorMessage = '');
       })
-      .addCase(fetchOrder.rejected, (state) => {
+      .addCase(fetchOrder.rejected, (state, action) => {
         state.orderRequest = false;
+        state.isError = true;
+        state.errorMessage = action.error.message as string;
       })
       .addCase(fetchOrder.fulfilled, (state, action) => {
         state.orderRequest = false;
+        (state.isError = false), (state.errorMessage = '');
         state.orderData = action.payload;
       })
       .addCase(fetchGetOrder.pending, (state) => {
         state.orderRequest = true;
+        state.isError = false;
+        state.errorMessage = '';
       })
-      .addCase(fetchGetOrder.rejected, (state) => {
+      .addCase(fetchGetOrder.rejected, (state, action) => {
         state.orderRequest = false;
+        state.isError = true;
+        state.errorMessage = action.error.message as string;
       })
       .addCase(fetchGetOrder.fulfilled, (state, action) => {
         state.orderRequest = false;
+        state.isError = false;
+        state.errorMessage = '';
         state.orderData = action.payload.orders[0];
       });
   }
@@ -56,3 +68,5 @@ export const orderSlice = createSlice({
 
 export const { OrderRequest, OrderModalData } = orderSlice.selectors;
 export const { clearOrderModalData } = orderSlice.actions;
+export default orderSlice.reducer;
+export { initialState as initialStateOrder };

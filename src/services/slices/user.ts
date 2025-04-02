@@ -123,3 +123,4 @@ export const userSlice = createSlice({
 
 export const { userData, userIsAuth, userIsCheck, userIsLoading } =
   userSlice.selectors;
+export { initialState as initialStateUser };

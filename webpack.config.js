@@ -49,7 +49,7 @@ module.exports = {
   },
   plugins: [
     new ESLintPlugin({
-      extensions: ['.js', '.jsx','.ts','.tsx' ]
+      extensions: ['.js', '.jsx', ]//'.ts','.tsx'
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html'
@@ -81,7 +81,9 @@ module.exports = {
       '@selectors': path.resolve(__dirname, './src/services/selectors'),
       '@actions': path.resolve(__dirname, './src/services/actions'),
       '@store': path.resolve(__dirname, './src/services/store'),
-      '@utils': path.resolve(__dirname, './src/utils')
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@dataTests' : path.resolve(__dirname, './src/dataTests'),
+
     }
   },
   output: {

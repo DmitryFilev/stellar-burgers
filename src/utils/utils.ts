@@ -1,4 +1,5 @@
 import { TIngredient, TTabMode } from '@utils-types';
+import { v4 as uuid4 } from 'uuid';
 
 export const isType = (state: TIngredient, typeIngredient: TTabMode) => {
   if (!state) {
@@ -29,3 +30,5 @@ export const translateLoginError = (error: string) => {
       return error;
   }
 };
+
+export const getId = (): string => 'uuid4()';

@@ -17,7 +17,7 @@ export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
      *Формирование JSX
      */
     return (
-      <li className={styles.container}>
+      <li className={styles.container} data-cy-test={_id}>
         <Link
           className={styles.article}
           to={`/ingredients/${_id}`}

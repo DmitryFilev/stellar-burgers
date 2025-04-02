@@ -4,13 +4,12 @@ import {
   TIngredient,
   TConstructorIngredient
 } from '@utils-types';
-import { isType, moveElement } from '@utils';
-import { v4 as uuid4 } from 'uuid';
+import { isType, moveElement, getId } from '@utils';
 
 /**
  *  начальное состояние Конструктора Бургера
  **/
-const initialState: IConstructorIngredient = {
+export const initialState: IConstructorIngredient = {
   bun: null,
   ingredients: []
 };
@@ -29,11 +28,13 @@ export const burgerSlice = createSlice({
      */
     addBurgerIngredient: {
       reducer(state, action: PayloadAction<TConstructorIngredient>) {
-        if (isType(action.payload, 'bun')) state.bun = action.payload;
-        else state.ingredients.push(action.payload);
+        if (isType(action.payload, 'bun')) {
+          const { id, ...bun } = action.payload;
+          state.bun = bun;
+        } else state.ingredients.push(action.payload);
       },
       prepare(ingredient: TIngredient) {
-        return { payload: { ...ingredient, id: uuid4() } };
+        return { payload: { ...ingredient, id: getId() } };
       }
     },
     deleteBurgerIngredient: (state, action) => {
@@ -81,3 +82,5 @@ export const {
   moveIngredientUp,
   moveIngredientDown
 } = burgerSlice.actions;
+export default burgerSlice.reducer;
+export { initialState as initialStateBurger };
