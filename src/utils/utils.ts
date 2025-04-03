@@ -30,4 +30,4 @@ export const translateLoginError = (error: string) => {
   }
 };
 
-export const getId = (): string => 'uuid4()';
+export const getId = (): string => uuid4();
