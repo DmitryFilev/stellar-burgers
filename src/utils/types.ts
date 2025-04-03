@@ -23,6 +23,8 @@ export type TOrder = {
   updatedAt: string;
   number: number;
   ingredients: string[];
+  price?: number;
+  owner?: TUserOrder;
 };
 
 export type TOrdersData = {
@@ -34,9 +36,13 @@ export type TOrdersData = {
 export interface IIngredientListState {
   ingredients: TIngredient[];
   isLoading: boolean;
+  isError: boolean;
+  errorMessage: string;
 }
 export interface IFeedListState extends TOrdersData {
   isLoading: boolean;
+  isError: boolean;
+  errorMessage: string;
 }
 export interface IConstructorIngredient {
   bun: TIngredient | null;
@@ -45,10 +51,14 @@ export interface IConstructorIngredient {
 export interface IOrderState {
   orderData: TOrder | null;
   orderRequest: boolean;
+  isError: boolean;
+  errorMessage: string;
 }
 export interface IProfileOrdersState {
   orders: TOrder[];
   isLoading: boolean;
+  isError: boolean;
+  errorMessage: string;
 }
 export type TUser = {
   email: string;
@@ -63,3 +73,20 @@ export interface IUserState {
   errorMessage: string;
 }
 export type TTabMode = 'bun' | 'sauce' | 'main';
+export type orderResponse = {
+  _id: string;
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  ingredients: TIngredient[];
+  price: number;
+  owner: TUserOrder;
+};
+export type TUserOrder = {
+  name: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+};

@@ -1,0 +1,20 @@
+
+export const prefix = 'data-cy-test';
+export const testBunId = '643d69a5c3f7b9001cfa093c';
+export const testBunName = 'Краторная булка N-200i';
+export const testMainId = '643d69a5c3f7b9001cfa0941';
+export const testMainName = 'Биокотлета из марсианской Магнолии';
+export const testSauceId = '643d69a5c3f7b9001cfa0942';
+export const testOrderNumber = '72535';
+export const bunTop = `[${prefix}=bun-top]`;
+export const bunBottom = `[${prefix}=bun-bottom]`;
+export const testBun = `[${prefix}=${testBunId}]`;
+export const testMain = `[${prefix}=${testMainId}]`;
+export const testSauce = `[${prefix}=${testSauceId}]`;
+export const testConstructorBun = `[${prefix}=bun${testBunId}]`;
+export const testConstructorMain = `[${prefix}=ingredient${testMainId}]`;
+export const testConstructorSauce = `[${prefix}=ingredient${testSauceId}]`;
+export const modalDiv = `[${prefix}=modal-div]`;
+export const modalOverlay = `[${prefix}=modal-overlay]`;
+export const orderMakeButton = `[${prefix}=order-make] button`;
+export const burgerConstructor = `[${prefix}=burger-constructor]`;
