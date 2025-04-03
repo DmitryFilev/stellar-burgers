@@ -45,7 +45,6 @@ export const burgerSlice = createSlice({
     moveIngredientUp: (state, action) => {
       state.ingredients = moveElement(
         state.ingredients,
-        'id',
         action.payload,
         -1
       );
@@ -53,7 +52,6 @@ export const burgerSlice = createSlice({
     moveIngredientDown: (state, action) => {
       state.ingredients = moveElement(
         state.ingredients,
-        'id',
         action.payload,
         1
       );

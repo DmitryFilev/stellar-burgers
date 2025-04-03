@@ -21,12 +21,17 @@ import * as selectors from './dataTests'
         describe('Constructor tests', ()=> {
             it('1 task. Add ingredients', ()=> {
                 //Добавляем булку и убеждаемся, что их две
+                cy.get(selectors.testConstructorBun).should('not.exist')// для начала теста убеждаемся, что нет такой булки
                 cy.get(`${selectors.testBun} button`).click();
                 cy.get(selectors.testConstructorBun).should('exist').should('have.length', 2);
-                //Добавляем ингредиент main и убеждаемся, что он есть
+                //Добавляем конкретный ингредиент main и убеждаемся, что он появился
+                cy.get(selectors.testConstructorMain).should('not.exist')//для начала теста убеждаемся, что нет такого ингредиента
                 cy.get(`${selectors.testMain} button`).click();
-                cy.get(selectors.testConstructorMain).should('exist').should('have.length', 1);
-                //добавляем соус и убеждаемся, что он есть
+                cy.get(selectors.testConstructorMain)
+                .should('exist')//убеждаемся что конкретный тестовый ингредиент есть
+                .should('have.length', 1);//
+                //добавляем соус и убеждаемся, что он появился
+                cy.get(selectors.testConstructorSauce).should('not.exist')// для начала теста убеждаемся, что нет такого ингредиента
                 cy.get(`${selectors.testSauce} button`).click();
                 cy.get(selectors.testConstructorSauce).should('exist').should('have.length', 1);
             });
@@ -49,7 +54,7 @@ import * as selectors from './dataTests'
             it('4. Create order and close it', function () {
                 //убеждаемся, что конструктор чист
                 cy.get(`${selectors.burgerConstructor} li`).should('not.exist');
-                cy.get(selectors.testConstructorBun).should('not.exist');
+                cy.get(selectors.testConstructorBun).should('not.exist');//убеждаемся, что как минимум такой булки в конструкторе нет
                 //добавляем булки и убеждаемя в их наличии и количестве
                 cy.get(`${selectors.testBun} button`).click();
                 cy.get(selectors.testConstructorBun).should('exist');
