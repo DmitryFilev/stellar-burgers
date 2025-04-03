@@ -15,7 +15,7 @@ export const moveElement = (
   shift: number
 ) => {
   const arrTarget = arr;
-  const ind = arr.findIndex((el:TConstructorIngredient) => el.id === id);
+  const ind = arr.findIndex((el: TConstructorIngredient) => el.id === id);
   return arrTarget.toSpliced(ind + shift, 0, arrTarget.splice(ind, 1)[0]);
 };
 
